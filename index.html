@@ -47,7 +47,11 @@ body{font-family:'Outfit',sans-serif;color:var(--text);background:var(--bg);}
 @keyframes ringPulse{0%,100%{box-shadow:0 0 0 0 var(--glow);}50%{box-shadow:0 0 40px 8px var(--glow);}}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
 @keyframes slideUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
-@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes neonShift{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
 
 /* ── HOME ── */
 #home{
@@ -81,15 +85,13 @@ body{font-family:'Outfit',sans-serif;color:var(--text);background:var(--bg);}
   letter-spacing:.22em;text-transform:uppercase;margin:10px 0 44px;
   animation:slideUp .6s .2s both;
 }
-
-/* Section labels */
 .section-label{
   font-family:'DM Mono',monospace;font-size:.6rem;color:var(--dim);
   letter-spacing:.2em;text-transform:uppercase;
   margin-bottom:12px;text-align:left;width:100%;
 }
 
-/* App cards row */
+/* App cards */
 .cards-wrap{animation:slideUp .6s .3s both;width:100%;max-width:580px;}
 .cards{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
 .card{
@@ -110,7 +112,6 @@ body{font-family:'Outfit',sans-serif;color:var(--text);background:var(--bg);}
 }
 .ci-br{background:linear-gradient(135deg,#0d2a60,#1a4cb0);}
 .ci-yt{background:linear-gradient(135deg,#4a0a0a,#b01a1a);}
-.ci-gm{background:linear-gradient(135deg,#1a2f1a,#1a6b1a);}
 .card-name{font-size:.9rem;font-weight:700;}
 .card-desc{font-size:.65rem;color:var(--sub);margin-top:3px;font-family:'DM Mono',monospace;}
 
@@ -126,7 +127,6 @@ body{font-family:'Outfit',sans-serif;color:var(--text);background:var(--bg);}
 .game-chip:hover{background:var(--bg2);border-color:var(--green);transform:translateY(-2px);}
 .game-chip:active{transform:scale(.97);}
 .game-chip span{font-size:.9rem;}
-
 .ver{
   position:absolute;bottom:22px;font-family:'DM Mono',monospace;
   font-size:.58rem;color:var(--dim);letter-spacing:.15em;
@@ -160,7 +160,7 @@ body{font-family:'Outfit',sans-serif;color:var(--text);background:var(--bg);}
 .nbtn.go:hover{background:var(--blue2);}
 .nbtn.hm:hover{background:rgba(255,64,87,.1);border-color:var(--red);color:var(--red);}
 
-/* URL bar */
+/* URL bar — neon galaxy text */
 .urlbar-wrap{flex:1;position:relative;display:flex;align-items:center;}
 .urlbar-icon{
   position:absolute;left:11px;font-size:.68rem;color:var(--sub);
@@ -168,16 +168,18 @@ body{font-family:'Outfit',sans-serif;color:var(--text);background:var(--bg);}
 }
 .urlbar{
   width:100%;padding:8px 12px 8px 34px;
-  background:var(--bg3);color:var(--text);
+  background:var(--bg3);
   border:1px solid var(--line);border-radius:9px;
   font-family:'DM Mono',monospace;font-size:.76rem;
   outline:none;transition:border-color .25s,box-shadow .25s,background .2s;
+  color:#a78bfa;
+  text-shadow:0 0 8px rgba(167,139,250,.6),0 0 20px rgba(56,189,248,.3);
 }
 .urlbar:focus{
-  border-color:var(--blue);background:var(--bg2);
-  box-shadow:0 0 0 3px rgba(45,107,255,.1);
+  border-color:var(--purple);background:var(--bg2);
+  box-shadow:0 0 0 3px rgba(139,92,246,.15);
 }
-.urlbar::placeholder{color:var(--sub);}
+.urlbar::placeholder{color:var(--sub);text-shadow:none;}
 
 /* Suggestions dropdown */
 .suggestions{
@@ -189,16 +191,12 @@ body{font-family:'Outfit',sans-serif;color:var(--text);background:var(--bg);}
 .suggestions.show{display:block;}
 .sug-item{
   display:flex;align-items:center;gap:10px;padding:10px 14px;
-  cursor:pointer;font-size:.8rem;color:var(--text);
-  transition:background .15s;
+  cursor:pointer;font-size:.8rem;color:var(--text);transition:background .15s;
 }
 .sug-item:hover{background:var(--bg3);}
 .sug-item .sug-icon{font-size:.85rem;flex-shrink:0;color:var(--sub);}
 .sug-item .sug-text{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.sug-item .sug-tag{
-  font-family:'DM Mono',monospace;font-size:.58rem;
-  color:var(--dim);flex-shrink:0;
-}
+.sug-item .sug-tag{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--dim);flex-shrink:0;}
 
 /* App badge */
 .nav-badge{
@@ -210,50 +208,57 @@ body{font-family:'Outfit',sans-serif;color:var(--text);background:var(--bg);}
 
 /* CONTENT */
 .content{flex:1;position:relative;overflow:hidden;display:flex;}
-#frame{
-  flex:1;border:none;opacity:0;transition:opacity .35s;
-}
+#frame{flex:1;border:none;opacity:0;transition:opacity .35s;}
 #frame.show{opacity:1;}
 
 /* ── BUILT-IN SEARCH PAGE ── */
 #search-page{
   position:absolute;inset:0;z-index:5;
   display:none;flex-direction:column;align-items:center;justify-content:center;
-  background:var(--bg);gap:24px;padding:20px;
+  background:var(--bg);gap:28px;padding:20px;
 }
 #search-page.show{display:flex;}
 .sp-logo{
-  font-size:2.4rem;font-weight:900;letter-spacing:-.05em;
-  background:linear-gradient(150deg,#fff 20%,var(--blue2) 80%);
+  font-size:2.6rem;font-weight:900;letter-spacing:-.05em;
+  background:linear-gradient(90deg,#a78bfa,#38bdf8,#34d399,#f472b6,#a78bfa);
+  background-size:300% 100%;
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:neonShift 4s ease infinite;
+  filter:drop-shadow(0 0 12px rgba(167,139,250,.4));
 }
 .sp-tagline{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--dim);letter-spacing:.2em;}
 .sp-search-wrap{width:100%;max-width:540px;position:relative;}
+
+/* search input — neon glow text */
 .sp-input{
   width:100%;padding:14px 52px 14px 18px;
-  background:var(--bg2);color:var(--text);
+  background:var(--bg2);
   border:1px solid var(--line);border-radius:14px;
   font-family:'Outfit',sans-serif;font-size:1rem;
   outline:none;transition:border-color .25s,box-shadow .25s;
+  color:#a78bfa;
+  text-shadow:0 0 8px rgba(167,139,250,.7),0 0 20px rgba(56,189,248,.4);
 }
-.sp-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(45,107,255,.12);}
-.sp-input::placeholder{color:var(--sub);}
+.sp-input:focus{
+  border-color:var(--purple);
+  box-shadow:0 0 0 3px rgba(139,92,246,.15),0 0 20px rgba(167,139,250,.08);
+}
+.sp-input::placeholder{color:var(--sub);text-shadow:none;}
+
 .sp-go{
   position:absolute;right:10px;top:50%;transform:translateY(-50%);
   width:36px;height:36px;border-radius:9px;
-  background:var(--blue);border:none;color:#fff;
-  cursor:pointer;font-size:1rem;display:grid;place-items:center;
-  transition:background .15s;
+  background:linear-gradient(135deg,#7c3aed,#2d6bff);
+  border:none;color:#fff;cursor:pointer;font-size:1rem;
+  display:grid;place-items:center;transition:opacity .15s;
+  box-shadow:0 0 12px rgba(124,58,237,.4);
 }
-.sp-go:hover{background:var(--blue2);}
-.sp-engines{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
-.sp-eng-btn{
-  padding:8px 16px;border-radius:20px;border:1px solid var(--line);
-  background:var(--bg1);color:var(--sub);cursor:pointer;
-  font-family:'DM Mono',monospace;font-size:.7rem;
-  transition:border-color .2s,color .2s,background .2s;
+.sp-go:hover{opacity:.85;}
+.sp-hint{
+  font-family:'DM Mono',monospace;font-size:.62rem;color:var(--dim);
+  text-align:center;line-height:1.9;
 }
-.sp-eng-btn:hover,.sp-eng-btn.active{border-color:var(--blue);color:var(--text);background:var(--bg2);}
+.sp-hint span{color:var(--purple);text-shadow:0 0 6px rgba(139,92,246,.5);}
 
 /* LOADER */
 #loader{
@@ -264,7 +269,7 @@ body{font-family:'Outfit',sans-serif;color:var(--text);background:var(--bg);}
 #loader.hide{opacity:0;pointer-events:none;}
 .load-ring{
   width:44px;height:44px;border-radius:50%;
-  border:2px solid var(--line);border-top-color:var(--blue);
+  border:2px solid var(--line);border-top-color:var(--purple);
   animation:spin .75s linear infinite;
 }
 .load-site{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--sub);max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
@@ -273,7 +278,8 @@ body{font-family:'Outfit',sans-serif;color:var(--text);background:var(--bg);}
 /* PROGRESS BAR */
 #progress{
   position:absolute;top:0;left:0;height:2px;z-index:20;border-radius:0 2px 2px 0;
-  background:linear-gradient(90deg,var(--blue),var(--blue2));
+  background:linear-gradient(90deg,#a78bfa,#38bdf8,#34d399,#f472b6);
+  background-size:300% 100%;animation:neonShift 2s ease infinite;
   width:0;transition:width .3s ease,opacity .4s ease;
 }
 #progress.done{opacity:0;}
@@ -296,12 +302,9 @@ body{font-family:'Outfit',sans-serif;color:var(--text);background:var(--bg);}
 }
 .err-btn:hover{background:rgba(45,107,255,.1);}
 
-/* ══════════════════════════════
-   SOUNDBOARD SIDEBAR
-══════════════════════════════ */
+/* ── SOUNDBOARD ── */
 #sb-trigger{
-  position:fixed;right:0;top:50%;transform:translateY(-50%);
-  z-index:500;
+  position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:500;
   background:var(--bg2);border:1px solid var(--line);
   border-right:none;border-radius:10px 0 0 10px;
   padding:14px 8px;cursor:pointer;
@@ -311,11 +314,9 @@ body{font-family:'Outfit',sans-serif;color:var(--text);background:var(--bg);}
 #sb-trigger:hover{background:var(--bg3);border-color:var(--purple);}
 #sb-trigger .sb-icon{font-size:1.1rem;}
 #sb-trigger .sb-text{
-  font-family:'DM Mono',monospace;font-size:.52rem;
-  color:var(--sub);letter-spacing:.1em;writing-mode:vertical-rl;
-  text-orientation:mixed;transform:rotate(180deg);
+  font-family:'DM Mono',monospace;font-size:.52rem;color:var(--sub);
+  letter-spacing:.1em;writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg);
 }
-
 #soundboard{
   position:fixed;right:-340px;top:0;bottom:0;width:320px;z-index:499;
   background:var(--bg1);border-left:1px solid var(--line);
@@ -332,21 +333,18 @@ body{font-family:'Outfit',sans-serif;color:var(--text);background:var(--bg);}
 .sb-close{
   width:28px;height:28px;border-radius:7px;border:1px solid var(--line);
   background:var(--bg2);color:var(--sub);cursor:pointer;
-  display:grid;place-items:center;font-size:.78rem;
-  transition:background .15s,color .15s;
+  display:grid;place-items:center;font-size:.78rem;transition:background .15s,color .15s;
 }
 .sb-close:hover{background:#3a1a1a;border-color:var(--red);color:var(--red);}
 .sb-grid{
   flex:1;overflow-y:auto;padding:12px;
-  display:grid;grid-template-columns:1fr 1fr;gap:10px;
-  align-content:start;
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;align-content:start;
 }
 .sb-grid::-webkit-scrollbar{width:4px;}
 .sb-grid::-webkit-scrollbar-thumb{background:var(--line);border-radius:2px;}
 .sb-sound-card{
-  background:var(--bg2);border:1px solid var(--line);
-  border-radius:12px;padding:10px 8px 8px;
-  display:flex;flex-direction:column;align-items:center;gap:6px;
+  background:var(--bg2);border:1px solid var(--line);border-radius:12px;
+  padding:10px 8px 8px;display:flex;flex-direction:column;align-items:center;gap:6px;
   transition:border-color .2s,box-shadow .2s;
 }
 .sb-sound-card:hover{border-color:var(--purple);box-shadow:0 4px 20px rgba(139,92,246,.15);}
@@ -399,7 +397,7 @@ body{font-family:'Outfit',sans-serif;color:var(--text);background:var(--bg);}
       </div>
     </div>
   </div>
-  <p class="ver">B1 HUB v2.2 · PROXY EDITION</p>
+  <p class="ver">B1 HUB v2.3 · PROXY EDITION</p>
 </div>
 
 <!-- APP SHELL -->
@@ -429,23 +427,20 @@ body{font-family:'Outfit',sans-serif;color:var(--text);background:var(--bg);}
     <div id="err">
       <div class="err-icon">🔒</div>
       <div class="err-title">Couldn't load that page</div>
-      <div class="err-sub" id="err-sub">All proxy routes failed. Try a different URL.</div>
+      <div class="err-sub" id="err-sub">This site blocked the proxy. Try a different URL.</div>
       <button class="err-btn" id="err-newtab">Open in New Tab ↗</button>
     </div>
 
-    <!-- BUILT-IN SEARCH PAGE (replaces DDG iframe) -->
+    <!-- BUILT-IN SEARCH PAGE -->
     <div id="search-page">
       <div class="sp-logo">B1 Search</div>
-      <div class="sp-tagline">// powered by your proxy</div>
+      <div class="sp-tagline">// via brave search</div>
       <div class="sp-search-wrap">
-        <input class="sp-input" id="sp-input" placeholder="Search the web…" spellcheck="false" autocomplete="off">
+        <input class="sp-input" id="sp-input" placeholder="Search anything…" spellcheck="false" autocomplete="off">
         <button class="sp-go" onclick="spSearch()">→</button>
       </div>
-      <div class="sp-engines">
-        <button class="sp-eng-btn active" id="eng-brave"   onclick="setEngine('brave')"  >Brave</button>
-        <button class="sp-eng-btn"        id="eng-bing"    onclick="setEngine('bing')"   >Bing</button>
-        <button class="sp-eng-btn"        id="eng-google"  onclick="setEngine('google')" >Google</button>
-        <button class="sp-eng-btn"        id="eng-wiki"    onclick="setEngine('wiki')"   >Wikipedia</button>
+      <div class="sp-hint">
+        type <span>yt</span> or <span>youtube</span> to open YouTube &nbsp;·&nbsp; paste any URL to visit it
       </div>
     </div>
 
@@ -468,7 +463,7 @@ body{font-family:'Outfit',sans-serif;color:var(--text);background:var(--bg);}
     <div class="sb-title">🎵 Soundboard</div>
     <button class="sb-close" onclick="toggleSoundboard()">✕</button>
   </div>
-  <div class="sb-grid" id="sb-grid">
+  <div class="sb-grid">
     <div class="sb-sound-card">
       <div class="sb-label">😩 Fahhhh</div>
       <iframe src="https://www.myinstants.com/instant/fahhhhhhhhhhhhhh-3525/embed/" frameborder="0" scrolling="no"></iframe>
@@ -500,67 +495,10 @@ body{font-family:'Outfit',sans-serif;color:var(--text);background:var(--bg);}
 // ═══════════════════════════════════════════════════════════
 //  CONFIG
 // ═══════════════════════════════════════════════════════════
-const PROXY_BASE     = "/proxy?url=";
-const PUBLIC_PROXIES = [
-  u => `https://corsproxy.io/?url=${encodeURIComponent(u)}`,
-  u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
-];
+const PROXY_BASE = "/proxy?url=";
 
-// Search engines — these go through your proxy so they actually load
-const ENGINES = {
-  brave:  q => `https://search.brave.com/search?q=${encodeURIComponent(q)}`,
-  bing:   q => `https://www.bing.com/search?q=${encodeURIComponent(q)}`,
-  google: q => `https://www.google.com/search?q=${encodeURIComponent(q)}`,
-  wiki:   q => `https://en.wikipedia.org/wiki/Special:Search?search=${encodeURIComponent(q)}`,
-};
-let activeEngine = "brave";
-
-function setEngine(eng) {
-  activeEngine = eng;
-  document.querySelectorAll(".sp-eng-btn").forEach(b => b.classList.remove("active"));
-  document.getElementById("eng-" + eng).classList.add("active");
-}
-
-function isYouTubeQuery(v) {
-  return /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)/i.test(v) || v.toLowerCase() === "yt" || v.toLowerCase() === "youtube";
-}
-
-function switchToYouTube(searchTerm) {
-  mode = "youtube";
-  document.getElementById("nav-icon").textContent = "▶";
-  document.getElementById("nav-icon").style.background = "linear-gradient(135deg,#4a0a0a,#b01a1a)";
-  document.getElementById("nav-name").textContent = "YouTube";
-  hideSearchPage();
-  if (searchTerm) {
-    load("https://www.youtube.com/embed?listType=search&list=" + encodeURIComponent(searchTerm));
-  } else {
-    load("https://www.youtube.com/embed?listType=search&list=music");
-  }
-}
-
-function spSearch() {
-  const q = document.getElementById("sp-input").value.trim();
-  if (!q) return;
-  if (isYouTubeQuery(q)) { switchToYouTube(""); return; }
-  const url = ENGINES[activeEngine](q);
-  hideSearchPage();
-  load(url);
-}
-
-document.addEventListener("keydown", e => {
-  if (e.key === "Enter" && document.activeElement.id === "sp-input") spSearch();
-});
-
-function showSearchPage() {
-  document.getElementById("search-page").classList.add("show");
-  document.getElementById("loader").classList.add("hide");
-  frame.classList.remove("show");
-  errEl.classList.remove("show");
-  setTimeout(() => document.getElementById("sp-input").focus(), 100);
-}
-
-function hideSearchPage() {
-  document.getElementById("search-page").classList.remove("show");
+function braveSearch(q) {
+  return "https://search.brave.com/search?q=" + encodeURIComponent(q);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -586,36 +524,32 @@ window.addEventListener("load", () => {
 // ═══════════════════════════════════════════════════════════
 //  APP STATE
 // ═══════════════════════════════════════════════════════════
-let mode = "browser", rawUrl = "", proxyFB = 0;
-let loadTimer = null, progInt = null, prog = 0;
+let mode = "browser", rawUrl = "", loadTimer = null, progInt = null, prog = 0;
 
-const frame   = document.getElementById("frame");
-const loader  = document.getElementById("loader");
-const errEl   = document.getElementById("err");
-const urlbar  = document.getElementById("urlbar");
-const progEl  = document.getElementById("progress");
-
-const APP_CONFIGS = {
-  browser: {name:"Browser", icon:"🌐", bg:"linear-gradient(135deg,#0d2a60,#1a4cb0)", url:null},
-  youtube: {name:"YouTube", icon:"▶",  bg:"linear-gradient(135deg,#4a0a0a,#b01a1a)", url:"https://www.youtube.com/embed?listType=search&list=music"},
-};
+const frame  = document.getElementById("frame");
+const loader = document.getElementById("loader");
+const errEl  = document.getElementById("err");
+const urlbar = document.getElementById("urlbar");
+const progEl = document.getElementById("progress");
 
 // ── Progress bar ──
 function startProg() {
   prog = 0; progEl.style.width = "0"; progEl.classList.remove("done");
   clearInterval(progInt);
-  progInt = setInterval(() => { if (prog < 82) { prog += Math.random()*7; progEl.style.width = Math.min(prog,82)+"%"; }}, 220);
+  progInt = setInterval(() => {
+    if (prog < 82) { prog += Math.random() * 7; progEl.style.width = Math.min(prog, 82) + "%"; }
+  }, 220);
 }
 function finishProg() {
   clearInterval(progInt); progEl.style.width = "100%";
   setTimeout(() => progEl.classList.add("done"), 400);
 }
-function clearProg() { clearInterval(progInt); progEl.style.width="0"; progEl.classList.add("done"); }
+function clearProg() { clearInterval(progInt); progEl.style.width = "0"; progEl.classList.add("done"); }
 
 // ── Loader states ──
-function showLoader(site="", proxyLabel="") {
-  document.getElementById("load-site").textContent  = site.replace(/^https?:\/\//,"").slice(0,50) || "—";
-  document.getElementById("load-proxy").textContent = proxyLabel;
+function showLoader(site = "", label = "") {
+  document.getElementById("load-site").textContent  = site.replace(/^https?:\/\//, "").slice(0, 50) || "—";
+  document.getElementById("load-proxy").textContent = label;
   loader.classList.remove("hide");
   errEl.classList.remove("show");
   frame.classList.remove("show");
@@ -634,7 +568,19 @@ function showError(msg) {
   frame.classList.remove("show");
   if (msg) document.getElementById("err-sub").textContent = msg;
   errEl.classList.add("show");
-  document.getElementById("err-newtab").onclick = () => window.open(rawUrl,"_blank");
+  document.getElementById("err-newtab").onclick = () => window.open(rawUrl, "_blank");
+}
+
+// ── Search page ──
+function showSearchPage() {
+  document.getElementById("search-page").classList.add("show");
+  loader.classList.add("hide");
+  frame.classList.remove("show");
+  errEl.classList.remove("show");
+  setTimeout(() => document.getElementById("sp-input").focus(), 100);
+}
+function hideSearchPage() {
+  document.getElementById("search-page").classList.remove("show");
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -642,24 +588,22 @@ function showError(msg) {
 // ═══════════════════════════════════════════════════════════
 function openApp(type) {
   mode = type;
-  const cfg = APP_CONFIGS[type];
   document.getElementById("home").classList.add("out");
   document.getElementById("app").classList.add("in");
-  document.getElementById("nav-icon").textContent = cfg.icon;
-  document.getElementById("nav-icon").style.background = cfg.bg;
-  document.getElementById("nav-name").textContent = cfg.name;
 
   if (type === "browser") {
-    // Show the built-in search page instead of trying to iframe DDG
+    document.getElementById("nav-icon").textContent = "🌐";
+    document.getElementById("nav-icon").style.background = "linear-gradient(135deg,#0d2a60,#1a4cb0)";
+    document.getElementById("nav-name").textContent = "Browser";
     urlbar.value = "";
     showSearchPage();
-  } else {
-    load(cfg.url);
+  } else if (type === "youtube") {
+    switchToYouTube();
   }
 }
 
 function openGame(url, name) {
-  mode = "browser";
+  mode = "game";
   document.getElementById("home").classList.add("out");
   document.getElementById("app").classList.add("in");
   document.getElementById("nav-icon").textContent = "🎮";
@@ -673,66 +617,100 @@ function goHome() {
   document.getElementById("home").classList.remove("out");
   frame.classList.remove("show");
   frame.src = "about:blank";
-  clearProg();
-  hideSuggestions();
+  clearProg(); hideSuggestions(); hideSearchPage();
+}
+
+function switchToYouTube(searchTerm) {
+  mode = "youtube";
+  document.getElementById("nav-icon").textContent = "▶";
+  document.getElementById("nav-icon").style.background = "linear-gradient(135deg,#4a0a0a,#b01a1a)";
+  document.getElementById("nav-name").textContent = "YouTube";
   hideSearchPage();
+  const ytUrl = searchTerm
+    ? "https://www.youtube.com/embed?listType=search&list=" + encodeURIComponent(searchTerm)
+    : "https://www.youtube.com/embed?listType=search&list=music";
+  load(ytUrl);
+}
+
+function isYouTubeQuery(v) {
+  const lc = v.toLowerCase().trim();
+  return lc === "yt" || lc === "youtube" || /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)/i.test(v);
 }
 
 // ═══════════════════════════════════════════════════════════
-//  LOAD WITH PROXY WATERFALL
+//  LOAD — clean single proxy, no broken fallbacks
 // ═══════════════════════════════════════════════════════════
 function load(url) {
-  rawUrl = url; proxyFB = -1;
+  rawUrl = url;
   urlbar.value = url;
-  tryLoad();
-}
-
-function tryLoad() {
   startProg();
-  // YouTube embeds — native, no proxy
-  if (rawUrl.includes("youtube.com/embed") || rawUrl.includes("youtu.be")) {
-    showLoader("youtube.com","native embed");
-    frame.src = rawUrl; return;
-  }
-  // itch.io HTML games — native, no proxy needed
-  if (rawUrl.includes("html-classic.itch.zone") || rawUrl.includes("itch.zone")) {
-    showLoader(rawUrl.replace(/^https?:\/\//,"").slice(0,40), "native");
-    frame.src = rawUrl; return;
-  }
 
-  if (proxyFB === -1) {
-    showLoader(rawUrl, "via b1 proxy");
-    frame.src = PROXY_BASE + encodeURIComponent(rawUrl);
-    proxyFB = 0;
-  } else if (proxyFB < PUBLIC_PROXIES.length) {
-    showLoader(rawUrl, `fallback proxy ${proxyFB+1}`);
-    frame.src = PUBLIC_PROXIES[proxyFB](rawUrl);
-    proxyFB++;
-  } else {
-    showError("All proxy routes failed. Try opening in a new tab.");
+  // YouTube embed — direct, no proxy needed
+  if (url.includes("youtube.com/embed") || url.includes("youtu.be")) {
+    showLoader("youtube.com", "native embed");
+    frame.src = url;
     return;
   }
+
+  // itch.io games — direct
+  if (url.includes("itch.zone")) {
+    showLoader(url.replace(/^https?:\/\//, "").slice(0, 40), "native");
+    frame.src = url;
+    return;
+  }
+
+  // Everything else — through your b1 proxy
+  showLoader(url, "via b1 proxy");
+  frame.src = PROXY_BASE + encodeURIComponent(url);
+
+  // 15s timeout — gives Brave enough time to respond
   clearTimeout(loadTimer);
-  loadTimer = setTimeout(tryLoad, 10000);
+  loadTimer = setTimeout(() => {
+    showError("Took too long to load. This site may block proxies — try opening in a new tab.");
+  }, 15000);
 }
 
 frame.addEventListener("load", () => {
   if (!frame.src || frame.src === "about:blank") return;
   showContent();
 });
-frame.addEventListener("error", tryLoad);
+frame.addEventListener("error", () => {
+  showError("This site blocked the proxy. Try opening in a new tab.");
+});
 
 // ═══════════════════════════════════════════════════════════
-//  SMOOTH SEARCH + SUGGESTIONS
+//  SEARCH PAGE
+// ═══════════════════════════════════════════════════════════
+function spSearch() {
+  const q = document.getElementById("sp-input").value.trim();
+  if (!q) return;
+
+  if (isYouTubeQuery(q)) { switchToYouTube(); return; }
+
+  const isUrl = /^[^\s]+\.[a-z]{2,}(\/.*)?$/i.test(q) && !q.includes(" ");
+  if (isUrl) {
+    const url = /^https?:\/\//i.test(q) ? q : "https://" + q;
+    hideSearchPage(); load(url); return;
+  }
+
+  hideSearchPage();
+  load(braveSearch(q));
+}
+
+document.addEventListener("keydown", e => {
+  if (e.key === "Enter" && document.activeElement.id === "sp-input") spSearch();
+});
+
+// ═══════════════════════════════════════════════════════════
+//  URL BAR
 // ═══════════════════════════════════════════════════════════
 const QUICK_SITES = [
-  {icon:"🔍", text:"google.com",       tag:"site"},
-  {icon:"🔍", text:"bing.com",         tag:"site"},
-  {icon:"▶",  text:"youtube.com",      tag:"site"},
-  {icon:"🎮", text:"krunker.io",       tag:"game"},
-  {icon:"🎮", text:"hexgl.bkcore.com", tag:"game"},
-  {icon:"📰", text:"reddit.com",       tag:"site"},
-  {icon:"🐦", text:"twitter.com",      tag:"site"},
+  {icon:"▶",  text:"youtube.com",       tag:"app"},
+  {icon:"🎮", text:"krunker.io",        tag:"game"},
+  {icon:"🎮", text:"hexgl.bkcore.com",  tag:"game"},
+  {icon:"🍪", text:"cookieclicker.com", tag:"game"},
+  {icon:"📰", text:"reddit.com",        tag:"site"},
+  {icon:"🐦", text:"twitter.com",       tag:"site"},
 ];
 
 function showSuggestions(val) {
@@ -740,10 +718,10 @@ function showSuggestions(val) {
   if (!val) { box.classList.remove("show"); return; }
   const lc = val.toLowerCase();
   const matches = QUICK_SITES.filter(s => s.text.includes(lc) || s.tag.includes(lc));
-  const searchItem = {icon:"🔍", text:`Search "${val}"`, tag:"search"};
-  const items = [searchItem, ...matches].slice(0,6);
+  const searchItem = {icon:"🔍", text:`Search "${val}"`, tag:"brave"};
+  const items = [searchItem, ...matches].slice(0, 6);
   box.innerHTML = items.map(s => `
-    <div class="sug-item" onclick="pickSuggestion('${s.text === `Search "${val}"` ? val : s.text}','${s.text === `Search "${val}"` ? 'search' : 'url'}')">
+    <div class="sug-item" onclick="pickSuggestion(${JSON.stringify(s.text === `Search "${val}"` ? val : s.text)},${JSON.stringify(s.text === `Search "${val}"` ? 'search' : 'url')})">
       <span class="sug-icon">${s.icon}</span>
       <span class="sug-text">${s.text}</span>
       <span class="sug-tag">${s.tag}</span>
@@ -753,19 +731,18 @@ function showSuggestions(val) {
 }
 
 function pickSuggestion(val, type) {
-  urlbar.value = type === "url" ? val : val;
+  urlbar.value = val;
   hideSuggestions();
   goNavWith(val, type);
 }
-
 function hideSuggestions() {
   document.getElementById("suggestions").classList.remove("show");
 }
 
-urlbar.addEventListener("input", () => showSuggestions(urlbar.value.trim()));
+urlbar.addEventListener("input",   () => showSuggestions(urlbar.value.trim()));
 urlbar.addEventListener("keydown", e => {
-  if (e.key === "Enter") { hideSuggestions(); goNav(); }
-  if (e.key === "Escape") hideSuggestions();
+  if (e.key === "Enter")  { hideSuggestions(); goNav(); }
+  if (e.key === "Escape") { hideSuggestions(); }
 });
 urlbar.addEventListener("focus", () => { urlbar.select(); showSuggestions(urlbar.value.trim()); });
 document.addEventListener("click", e => {
@@ -776,28 +753,26 @@ function goNav() {
   let v = urlbar.value.trim();
   if (!v) return;
   if (mode === "youtube") {
-    load("https://www.youtube.com/embed?listType=search&list=" + encodeURIComponent(v)); return;
+    load("https://www.youtube.com/embed?listType=search&list=" + encodeURIComponent(v));
+    return;
   }
-  if (isYouTubeQuery(v)) { switchToYouTube(""); return; }
+  if (isYouTubeQuery(v)) { switchToYouTube(); return; }
   const isUrl = /^[^\s]+\.[a-z]{2,}(\/.*)?$/i.test(v) && !v.includes(" ");
   if (isUrl) {
-    if (!/^https?:\/\//i.test(v)) v = "https://"+v;
-    hideSearchPage();
-    load(v);
+    if (!/^https?:\/\//i.test(v)) v = "https://" + v;
+    hideSearchPage(); load(v);
   } else {
-    hideSearchPage();
-    load(ENGINES[activeEngine](v));
+    hideSearchPage(); load(braveSearch(v));
   }
 }
 
 function goNavWith(val, type) {
   if (type === "search") {
-    hideSearchPage();
-    load(ENGINES[activeEngine](val));
+    hideSearchPage(); load(braveSearch(val));
   } else {
-    let v = val; if (!/^https?:\/\//i.test(v)) v = "https://"+v;
-    hideSearchPage();
-    load(v);
+    if (isYouTubeQuery(val)) { switchToYouTube(); return; }
+    let v = /^https?:\/\//i.test(val) ? val : "https://" + val;
+    hideSearchPage(); load(v);
   }
 }
 
