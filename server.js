@@ -62,7 +62,7 @@ app.get("/proxy", async (req, res) => {
       } catch { return href; }
     }
 
-    $("a[href]").each((_, el) =>      $(el).attr("href",   rewrite($(el).attr("href"))));
+    $("a[href]").each((_, el)      => $(el).attr("href",   rewrite($(el).attr("href"))));
     $("form[action]").each((_, el) => $(el).attr("action", rewrite($(el).attr("action"))));
 
     $("img[src], script[src], source[src]").each((_, el) => {
