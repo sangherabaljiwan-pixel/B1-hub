@@ -32,6 +32,7 @@ app.get("/proxy", async (req, res) => {
         "User-Agent":      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
         "Accept":          "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
         "Accept-Language": "en-US,en;q=0.9",
+        "Referer":         targetUrl.origin + "/",
       },
       redirect: "follow",
     });
@@ -77,13 +78,22 @@ app.get("/proxy", async (req, res) => {
     // Base tag so relative JS paths resolve correctly
     $("head").prepend(`<base href="${base}/">`);
 
-    // Strip frame-blocking meta tags
+    // Strip ALL frame-blocking meta tags
     $('meta[http-equiv="Content-Security-Policy"]').remove();
     $('meta[http-equiv="X-Frame-Options"]').remove();
+    $('meta[http-equiv="Cross-Origin-Opener-Policy"]').remove();
+    $('meta[http-equiv="Cross-Origin-Embedder-Policy"]').remove();
 
-    // Strip blocking response headers
+    // Strip ALL blocking response headers
     res.removeHeader("X-Frame-Options");
     res.removeHeader("Content-Security-Policy");
+    res.removeHeader("X-Content-Type-Options");
+    res.removeHeader("Cross-Origin-Opener-Policy");
+    res.removeHeader("Cross-Origin-Embedder-Policy");
+    res.removeHeader("Cross-Origin-Resource-Policy");
+
+    // Permissive CORS so the iframe can load sub-resources
+    res.set("Access-Control-Allow-Origin", "*");
     res.set("Content-Type", "text/html; charset=utf-8");
     res.send($.html());
 
