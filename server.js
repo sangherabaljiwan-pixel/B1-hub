@@ -1,3 +1,11 @@
+/**
+ * B1 Hub Proxy Server
+ * -------------------
+ * Install:  npm install
+ * Run:      node server.js
+ * Visit:    http://localhost:3000
+ */
+
 const express = require("express");
 const fetch   = require("node-fetch");
 const cheerio = require("cheerio");
@@ -54,13 +62,8 @@ app.get("/proxy", async (req, res) => {
       } catch { return href; }
     }
 
-    $("a[href]").each((_, el) =>
-      $(el).attr("href", rewrite($(el).attr("href")))
-    );
-
-    $("form[action]").each((_, el) =>
-      $(el).attr("action", rewrite($(el).attr("action")))
-    );
+    $("a[href]").each((_, el) =>      $(el).attr("href",   rewrite($(el).attr("href"))));
+    $("form[action]").each((_, el) => $(el).attr("action", rewrite($(el).attr("action"))));
 
     $("img[src], script[src], source[src]").each((_, el) => {
       const src = $(el).attr("src");
@@ -72,6 +75,7 @@ app.get("/proxy", async (req, res) => {
       if (href) try { $(el).attr("href", new URL(href, target).href); } catch {}
     });
 
+    // Base tag so relative JS paths resolve correctly
     $("head").prepend(`<base href="${base}/">`);
 
     // Strip ALL frame-blocking meta tags
