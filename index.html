@@ -521,9 +521,27 @@ function setEngine(eng) {
   document.getElementById("eng-" + eng).classList.add("active");
 }
 
+function isYouTubeQuery(v) {
+  return /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)/i.test(v) || v.toLowerCase() === "yt" || v.toLowerCase() === "youtube";
+}
+
+function switchToYouTube(searchTerm) {
+  mode = "youtube";
+  document.getElementById("nav-icon").textContent = "▶";
+  document.getElementById("nav-icon").style.background = "linear-gradient(135deg,#4a0a0a,#b01a1a)";
+  document.getElementById("nav-name").textContent = "YouTube";
+  hideSearchPage();
+  if (searchTerm) {
+    load("https://www.youtube.com/embed?listType=search&list=" + encodeURIComponent(searchTerm));
+  } else {
+    load("https://www.youtube.com/embed?listType=search&list=music");
+  }
+}
+
 function spSearch() {
   const q = document.getElementById("sp-input").value.trim();
   if (!q) return;
+  if (isYouTubeQuery(q)) { switchToYouTube(""); return; }
   const url = ENGINES[activeEngine](q);
   hideSearchPage();
   load(url);
@@ -760,13 +778,13 @@ function goNav() {
   if (mode === "youtube") {
     load("https://www.youtube.com/embed?listType=search&list=" + encodeURIComponent(v)); return;
   }
+  if (isYouTubeQuery(v)) { switchToYouTube(""); return; }
   const isUrl = /^[^\s]+\.[a-z]{2,}(\/.*)?$/i.test(v) && !v.includes(" ");
   if (isUrl) {
     if (!/^https?:\/\//i.test(v)) v = "https://"+v;
     hideSearchPage();
     load(v);
   } else {
-    // Text search — use active engine through proxy
     hideSearchPage();
     load(ENGINES[activeEngine](v));
   }
